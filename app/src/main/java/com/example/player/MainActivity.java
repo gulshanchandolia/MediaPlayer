@@ -20,21 +20,26 @@ public class MainActivity<privete> extends AppCompatActivity {
 
     public void play(View v) {
         players();
+        Toast.makeText(this, "MediaPlayer Played", Toast.LENGTH_SHORT).show();
     }
+
 
     public void pause(View v) {
         if (player != null) {
             player.pause();
-            paused = player.getCurrentPosition();
-            Toast.makeText(this, "Music Paused", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "MediaPlayer Paused", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void stop(View v) {
+        stopPlayer();
+    }
+
+    private void stopPlayer() {
         if (player != null) {
             player.release();
             player = null;
-            Toast.makeText(this, "Music Stopped", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "MediaPlayer Stopped", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -46,23 +51,29 @@ public class MainActivity<privete> extends AppCompatActivity {
             n = 0;
 
         while (n != 0) {
-            //players();
+            players();
             Toast.makeText(this, "Music in Loop", Toast.LENGTH_SHORT).show();
             n--;
         }
-
     }
 
-    private void players() {
-        if (player == null) {
-            player = MediaPlayer.create(this, R.raw.tone);
-            Toast.makeText(this, "Music Played", Toast.LENGTH_SHORT).show();
-            player.start();
-        }
-
-        else if (!player.isPlaying()) {
-                player.seekTo(paused);
+    private void players(){
+            if (player == null) {
+                player = MediaPlayer.create(this, R.raw.tone);
                 player.start();
-        }
+                player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        stopPlayer();
+                        player = null;
+                    }
+                });
+            }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopPlayer();
     }
 }
