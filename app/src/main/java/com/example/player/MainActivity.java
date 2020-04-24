@@ -7,21 +7,23 @@ package com.example.player;
         import android.widget.EditText;
         import android.widget.Toast;
 
-public class MainActivity<privete> extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     MediaPlayer player;
     private EditText loop;
-    int paused;
+    int n;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loop = (EditText) findViewById(R.id.loop);
+        loop.setText("1");
     }
 
-    public void play(View v) {
-        players();
-        Toast.makeText(this, "MediaPlayer Played", Toast.LENGTH_SHORT).show();
-    }
+    //public void play(View v) {
+       // players();
+        //Toast.makeText(this, "MediaPlayer Played", Toast.LENGTH_SHORT).show();
+    //https://developer.android.com/reference/android/media/MediaPlayer}
 
 
     public void pause(View v) {
@@ -44,30 +46,44 @@ public class MainActivity<privete> extends AppCompatActivity {
     }
 
     public void loop(View v) {
-        loop = (EditText) findViewById(R.id.loop);
-        int n = Integer.parseInt(loop.getText().toString());
 
-        if (loop == null)
-            n = 0;
+         n = Integer.parseInt(loop.getText().toString());
+        //n = 2;
+        boolean play = false;
 
-        while (n != 0) {
-            players();
-            Toast.makeText(this, "Music in Loop", Toast.LENGTH_SHORT).show();
-            n--;
-        }
+            player = MediaPlayer.create(this, R.raw.tone);
+            player.start();
+            //player.setLooping(play1);
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    if (n>1) {
+                        n--;
+                        player.start();
+                    }
+                    else {
+                        player.stop();
+                    }
+                }
+            });
+            //play = true;
+            //players(play);
+            //Toast.makeText(this, "Music in Loop", Toast.LENGTH_SHORT).show();
+
     }
 
-    private void players(){
+    private void players(boolean play1){
             if (player == null) {
                 player = MediaPlayer.create(this, R.raw.tone);
                 player.start();
+                //player.setLooping(play1);
                 player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        stopPlayer();
-                        player = null;
-                    }
-                });
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                player.stop();
+                                player = null;
+                  }
+              });
             }
     }
 
