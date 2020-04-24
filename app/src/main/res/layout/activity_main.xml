@@ -10,24 +10,6 @@
     tools:context=".MainActivity"
     tools:visibility="visible">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="play"
-        android:text="Play" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="pause"
-        android:text="Pause" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="stop"
-        android:text="Stop" />
-
     <EditText
         android:id="@+id/loop"
         android:layout_width="52dp"
@@ -39,7 +21,15 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="loop"
+        android:onClick="play"
         android:text="Loop" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="stop"
+        android:text="Stop" />
+
+
 
 </LinearLayout>
